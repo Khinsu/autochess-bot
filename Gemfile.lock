@@ -24,6 +24,7 @@ GEM
     netrc (0.11.0)
     opus-ruby (1.0.1)
       ffi
+    rake (12.3.2)
     rbnacl (3.4.0)
       ffi
     rest-client (2.1.0.rc1-x64-mingw32)
@@ -46,6 +47,7 @@ PLATFORMS
 DEPENDENCIES
   discordrb
   dotenv
+  rake
 
 RUBY VERSION
    ruby 2.5.3p105
