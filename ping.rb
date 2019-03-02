@@ -2,6 +2,7 @@
 
 require 'rest-client'
 require 'discordrb'
+require 'dotenv/load'
 
 puts 'Bot Token: ' + ENV['BOTTOKEN']
 
