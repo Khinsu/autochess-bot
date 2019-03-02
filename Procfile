@@ -1,1 +1,1 @@
-worker:  bundle exec rake default
+worker: ruby ping.rb
