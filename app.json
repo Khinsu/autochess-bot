@@ -1,0 +1,7 @@
+{
+  "name": "Dota2 AutoChess Discord Bot",
+  "description": "Bot to get AutoChess Player Infos",
+  "repository": "https://github.com/Khinsu/autochess-bot",
+  "logo": "https://www.ruby-lang.org/images/header-ruby-logo.png",
+  "keywords": ["ruby", "autochess-bot"]
+}

@@ -1,1 +1,1 @@
-worker: ruby ping.rb
+web: bundle exec ruby autochess.rb -p $PORT

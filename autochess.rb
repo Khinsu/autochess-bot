@@ -1,18 +1,45 @@
 # frozen_string_literal: true
+#dota2-autochess discord bot
 
 require 'rest-client'
 require 'discordrb'
 require 'dotenv/load'
+require 'sinatra'
 
-puts 'Bot Token: ' + ENV['BOTTOKEN']
-
-bot = Discordrb::Bot.new token: ENV['BOTTOKEN']
-#bot2 = Discordrb::Commands::CommandBot.new token: ENV['BOTTOKEN'], prefix: '!'
-
-
-
+$bot_token = ENV['BOTTOKEN']
+bot = Discordrb::Bot.new token: $bot_token
 puts 'Click on it to invite it to your server.'
 puts "This bot's invite URL is #{bot.invite_url}."
+
+bot.message(content: '!ping') do |event|
+	event.respond 'Pong!'
+end
+bot.run(true)
+
+get '/' do
+  redirect bot.invite_url
+end
+
+get '/stop/bot' do
+  puts "Stoppe Bot!"
+  bot.kill
+end
+
+get '/start/bot' do
+  puts "Starte Bot!"
+  bot.run(true)
+  redirect bot.invite_url
+end
+
+
+
+
+
+#bot2 = Discordrb::Commands::CommandBot.new token: ENV['BOTTOKEN'], prefix: '!'
+=begin
+
+
+
 
 
 
@@ -47,7 +74,7 @@ end
 
 bot.run
 
-=begin
+
 bot2.command(:eval, help_available: false) do |event, *code|
   puts 'eval' + code.join(' ')
   break unless event.user.id == 288604027220918272 # Replace number with your ID
