@@ -3,8 +3,12 @@
 require 'rest-client'
 require 'discordrb'
 
+puts 'Bot Token: ' + ENV['BOTTOKEN']
+
 bot = Discordrb::Bot.new token: ENV['BOTTOKEN']
 #bot2 = Discordrb::Commands::CommandBot.new token: ENV['BOTTOKEN'], prefix: '!'
+
+
 
 puts 'Click on it to invite it to your server.'
 puts "This bot's invite URL is #{bot.invite_url}."
