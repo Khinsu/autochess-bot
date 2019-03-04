@@ -16,6 +16,7 @@ bot = Discordrb::Commands::CommandBot.new token: $bot_token, prefix: '!'
 
 bot.command(:rank) do |event|
 	event.user.pm event.user.mention+'TODO'
+	event.respond event.user.mention+'TODO: Pawn-1'
 end
 
 
