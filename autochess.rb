@@ -6,14 +6,40 @@ require 'discordrb'
 require 'dotenv/load'
 require 'sinatra'
 
-$bot_token = ENV['BOTTOKEN']
-bot = Discordrb::Bot.new token: $bot_token
-puts 'Click on it to invite it to your server.'
-puts "This bot's invite URL is #{bot.invite_url}."
+require './player.rb'
 
-bot.message(content: '!ping') do |event|
+$bot_token = ENV['BOTTOKEN']
+
+
+
+bot = Discordrb::Commands::CommandBot.new token: $bot_token, prefix: '!'
+
+bot.command(:rank) do |event|
+	event.user.pm event.user.mention+'TODO'
+end
+
+
+bot.command(:ping) do |event|
 	event.respond 'Pong!'
 end
+bot.command(:pong) do |event|
+	event.respond 'Pong!'
+end
+
+bot.command(:eval, help_available: false) do |event, *code|
+  puts 'eval' + code.join(' ')
+  break unless event.user.id == 288604027220918272 # Replace number with your ID
+
+  begin
+    eval code.join(' ')
+  rescue StandardError
+    'An error occurred 😞'
+  end
+end
+
+
+
+
 bot.run(true)
 
 get '/' do
@@ -75,16 +101,7 @@ end
 bot.run
 
 
-bot2.command(:eval, help_available: false) do |event, *code|
-  puts 'eval' + code.join(' ')
-  break unless event.user.id == 288604027220918272 # Replace number with your ID
 
-  begin
-    eval code.join(' ')
-  rescue StandardError
-    'An error occurred 😞'
-  end
-end
 
 
 #bot2.run
