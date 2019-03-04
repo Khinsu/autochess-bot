@@ -1,24 +1,68 @@
 # frozen_string_literal: true
 #dota2-autochess discord bot
 
-require 'rest-client'
-require 'discordrb'
-require 'dotenv/load'
 require 'sinatra'
+require 'discordrb'
+require 'rest-client'
+require 'json'
+require 'dotenv/load'
+
 
 require './player.rb'
+
+p_table =   {	288604027220918272 => "76561198078021630", # "Tim" 6 
+				398229945328992259 => "76561197988139759", # "Manu" 9
+				421321668124868608 => "76561197983989974", # "Matze"
+				398242678212657155 => "76561197966075971",# "Daniel"
+				325726907922645002 => "76561198033375103", # "Roman"
+				149111705031409664 => "76561197988139759", #Josef
+				399183290847723530 => "76561197968282922", # Flo
+				343807543652384778 => "76561197976783316" # Antonio
+				}
+				
+				
+
+
+				
+def mmr2str r
+	r += 1
+	ut = ["Pawn", "Knight", "Bishop", "Rook", "King", "Queen"]
+	uts= ["\u2659", "\u2658", "\u2657", "\u2656", "\u2654", "\u2655"]
+	upper = (r / 10)
+	lower = (r % 10) + 1
+	uts[upper] + " " + ut[upper] + "-" + lower.to_s
+end
 
 $bot_token = ENV['BOTTOKEN']
 
 
-
 bot = Discordrb::Commands::CommandBot.new token: $bot_token, prefix: '!'
 
-bot.command(:rank) do |event|
-	event.user.pm event.user.mention+'TODO'
-	event.respond event.user.mention+'TODO: Pawn-1'
+
+bot.command(:rank, channels: ["552233269412757514"],  required_roles: ["552240698011811851"]) do |event|
+	
+	res = JSON.parse RestClient.get "https://dotachess.xyz/player/find/?id="+p_table[event.user.id]
+
+	event.channel.send_embed do |embed|
+	  embed.colour = 0xab7dea
+
+	  embed.thumbnail = Discordrb::Webhooks::EmbedThumbnail.new(url: "https://dotachess.xyz/static/images/player_icons/"+ res["user_info"]["onduty_hero"].split("_")[0] +".png")
+	  
+	  embed.add_field(name: "Player", value: event.user.mention, inline: true)
+	  embed.add_field(name: "Rank (intern)", value: "`todo`", inline: true)
+	  embed.add_field(name: "Level", value: mmr2str( res["user_info"][ "mmr_level"] ), inline: true)
+	  embed.add_field(name: "Candy", value: res["user_info"]["candy"].to_s, inline: true)
+	end
+	
 end
 
+bot.command(:manu) do |event|
+	event.user.pm event.user.mention+'siehst du!'
+end
+
+bot.command(:link) do |event|
+	event.user.pm event.user.mention+'TODO'
+end
 
 bot.command(:ping) do |event|
 	event.respond 'Pong!'
@@ -68,10 +112,6 @@ end
 
 
 
-
-
-#c_embed = { url: 'https://dotachess.xyz/', title: 'Dota 2 Auto Chess Rank', type: 'link'.to_sym, description: 'desc', color: '3447003'}
-#m_embed Discordrb::Embed.new( c_embed, 'message data')
 
 bot.message(content: '!ping') do |event|
   event.respond 'Pong!'
