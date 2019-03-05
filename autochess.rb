@@ -59,11 +59,11 @@ end
 
 bot.command(:release, channels: ["552233269412757514"],  required_roles: ["552240698011811851","398234793936158720"]) do |event|
 	
-	event.channel.send_embed("In diesem Channel könnt ihr euren Dota2 AutoChess Rank abfragen!") do |embed|
+	event.channel.send_embed("In diesem Channel k\u00f6nnt ihr euren Dota2 AutoChess Rank abfragen!") do |embed|
 	  embed.title = "D2Chess Bot ```Release``` "
 	  embed.colour = 0xff0000
 	  embed.url = "https://dota2-autochess.herokuapp.com/"
-	  embed.description = "Falls der Bot 30 Minuten lang nicht benutzt wurde legt er sich schlafen und kann über diesen Link wieder geweckt werden:\n[Wach Auf !!!](https://dota2-autochess.herokuapp.com/)"
+	  embed.description = "Falls der Bot 30 Minuten lang nicht benutzt wurde legt er sich schlafen und kann \u00fcber diesen Link wieder geweckt werden:\n[Wach Auf !!!](https://dota2-autochess.herokuapp.com/)"
 	  embed.timestamp = Time.at(1551774900)
 
 	  embed.thumbnail = Discordrb::Webhooks::EmbedThumbnail.new(url: "https://cdn.discordapp.com/attachments/552233269412757514/552410356287275008/Dota-Auto-Chess-Dota-2.jpeg")
