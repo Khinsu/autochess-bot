@@ -56,6 +56,14 @@ bot.command(:rank, channels: ["552233269412757514"],  required_roles: ["55224069
 	
 end
 
+
+bot.command(:clean) do |event, amount|
+	break unless event.user.id == 288604027220918272 # nur Tim
+	c = event.channel
+	r = c.delete_messages(c.history(amount+1))
+	event.user.pm "Es wurden #{r} Nachrichten geloescht!"
+end
+
 bot.command(:manu) do |event|
 	event.user.pm event.user.mention+'siehst du!'
 end
@@ -68,7 +76,7 @@ bot.command(:ping) do |event|
 	event.respond 'Pong!'
 end
 bot.command(:pong) do |event|
-	event.respond 'Pong!'
+	event.respond 'Ping!'
 end
 
 bot.command(:eval, help_available: false) do |event, *code|
