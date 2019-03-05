@@ -57,6 +57,25 @@ bot.command(:rank, channels: ["552233269412757514"],  required_roles: ["55224069
 end
 
 
+bot.command(:release, channels: ["552233269412757514"],  required_roles: ["552240698011811851","398234793936158720"]) do |event|
+	
+	event.channel.send_embed("In diesem Channel könnt ihr euren Dota2 AutoChess Rank abfragen!") do |embed|
+	  embed.title = "D2Chess Bot ```Release``` "
+	  embed.colour = 0xff0000
+	  embed.url = "https://dota2-autochess.herokuapp.com/"
+	  embed.description = "Falls der Bot 30 Minuten lang nicht benutzt wurde legt er sich schlafen und kann über diesen Link wieder geweckt werden:\n[Wach Auf !!!](https://dota2-autochess.herokuapp.com/)"
+	  embed.timestamp = Time.at(1551774900)
+
+	  embed.thumbnail = Discordrb::Webhooks::EmbedThumbnail.new(url: "https://cdn.discordapp.com/attachments/552233269412757514/552410356287275008/Dota-Auto-Chess-Dota-2.jpeg")
+	  embed.author = Discordrb::Webhooks::EmbedAuthor.new(name: "Tim Herold", icon_url: "https://cdn.discordapp.com/avatars/288604027220918272/581aa8a6de1936adb3d6c22d14d1074f.png")
+	  embed.footer = Discordrb::Webhooks::EmbedFooter.new(text: "version 0.2", icon_url: "https://cdn.discordapp.com/attachments/552233269412757514/552410356287275008/Dota-Auto-Chess-Dota-2.jpeg")
+
+	  embed.add_field(name: "Befehl", value: "!rank\n!link StemID64\n!list\n!release", inline: true)
+	  embed.add_field(name: "Beschreibung", value: "Gibt dein Rank aus.\nVerbindet Discord mit Steam.\nZeigt intere Rankliste an.\n`Admin only`", inline: true)
+	end
+end
+
+
 bot.command(:clean) do |event, amount|
 	break unless event.user.id == 288604027220918272 # nur Tim
 	c = event.channel
