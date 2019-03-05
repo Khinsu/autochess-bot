@@ -79,7 +79,7 @@ end
 bot.command(:clean) do |event, amount|
 	break unless event.user.id == 288604027220918272 # nur Tim
 	c = event.channel
-	r = c.delete_messages(c.history(amount+1))
+	r = c.delete_messages(c.history(amount.succ))
 	event.user.pm "Es wurden #{r} Nachrichten geloescht!"
 end
 
