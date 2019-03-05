@@ -29,7 +29,7 @@ def mmr2str r
 	ut = ["Pawn", "Knight", "Bishop", "Rook", "King", "Queen"]
 	uts= ["\u2659", "\u2658", "\u2657", "\u2656", "\u2654", "\u2655"]
 	upper = (r / 10)
-	lower = (r % 10) + 1
+	lower = (r % 10)
 	uts[upper] + " " + ut[upper] + "-" + lower.to_s
 end
 
