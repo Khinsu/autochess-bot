@@ -39,6 +39,19 @@ $bot_token = ENV['BOTTOKEN']
 bot = Discordrb::Commands::CommandBot.new token: $bot_token, prefix: '!'
 
 
+bot.command(:link) do |event|
+	event.user.pm event.user.mention+'TODO'
+end
+
+
+bot.command(:list) do |event|
+	event.user.pm event.user.mention+' Dieser Befehl wurde noch nicht implementiert.'
+	event.user.pm event.server.member(288604027220918272).mention+' TODO: impl !list command //wieder ein depp der versucht hat den befehl auszufuehren!'
+	c = event.channel
+	r = c.delete_message(event.message)
+end
+
+
 bot.command(:rank, channels: ["552233269412757514"],  required_roles: ["552240698011811851"]) do |event|
 	
 	res = JSON.parse RestClient.get "https://dotachess.xyz/player/find/?id="+p_table[event.user.id]
@@ -64,7 +77,7 @@ bot.command(:release, channels: ["552233269412757514"],  required_roles: ["55224
 	  embed.colour = 0xff0000
 	  embed.url = "https://dota2-autochess.herokuapp.com/"
 	  embed.description = "Falls der Bot 30 Minuten lang nicht benutzt wurde legt er sich schlafen und kann \u00fcber diesen Link wieder geweckt werden:\n[Wach Auf !!!](https://dota2-autochess.herokuapp.com/)"
-	  embed.timestamp = Time.at(1551774900)
+	  embed.timestamp = Time.at(1551905193)
 
 	  embed.thumbnail = Discordrb::Webhooks::EmbedThumbnail.new(url: "https://cdn.discordapp.com/attachments/552233269412757514/552410356287275008/Dota-Auto-Chess-Dota-2.jpeg")
 	  embed.author = Discordrb::Webhooks::EmbedAuthor.new(name: "Tim Herold", icon_url: "https://cdn.discordapp.com/avatars/288604027220918272/581aa8a6de1936adb3d6c22d14d1074f.png")
@@ -85,10 +98,6 @@ end
 
 bot.command(:manu) do |event|
 	event.user.pm event.user.mention+'siehst du!'
-end
-
-bot.command(:link) do |event|
-	event.user.pm event.user.mention+'TODO'
 end
 
 bot.command(:ping) do |event|
