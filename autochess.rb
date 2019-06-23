@@ -3,6 +3,7 @@
 
 require 'sinatra'
 require 'discordrb'
+require 'discordrb/webhooks'
 require 'rest-client'
 require 'json'
 require 'dotenv/load'
@@ -10,8 +11,8 @@ require 'dotenv/load'
 
 require './player.rb'
 
-p_table =   {	288604027220918272 => "76561198078021630", # "Tim" 6 
-				398229945328992259 => "76561197988139759", # "Manu" 9
+p_table =   {	288604027220918272 => "76561198078021630", # "Tim" 
+				398229945328992259 => "76561197988139759", # "Manu"
 				421321668124868608 => "76561197983989974", # "Matze"
 				398242678212657155 => "76561197966075971",# "Daniel"
 				325726907922645002 => "76561198033375103", # "Roman"
@@ -46,13 +47,18 @@ end
 
 bot.command(:list) do |event|
 	event.user.pm event.user.mention+' Dieser Befehl wurde noch nicht implementiert.'
-	event.user.pm event.server.member(288604027220918272).mention+' TODO: impl !list command //wieder ein depp der versucht hat den befehl auszufuehren!'
+#	event.user.pm event.server.member(288604027220918272).mention+' TODO: impl !list command //wieder ein depp der versucht hat den befehl auszufuehren!'
+#	event.server.member(288604027220918272).pm event.user.mention+' TODO: impl !list command //wieder ein depp der versucht hat den befehl auszufuehren!'
 	c = event.channel
 	r = c.delete_message(event.message)
 end
 
 
-bot.command(:rank, channels: ["552233269412757514"],  required_roles: ["552240698011811851"]) do |event|
+WEBHOOK_URL = 'https://discordapp.com/api/webhooks/563984353592344576/0xXLgM5Fepgp_HwdxPRQZwyFECTyzm7j5zFIN4bQ_ShnR9JmpbyiFP2Nn54f7pvXcIgR'
+
+client = Discordrb::Webhooks::Client.new(url: WEBHOOK_URL)
+
+bot.command(:rank, channels: ["552233269412757514","563984267160322058"],  allowed_roles: ["552240698011811851","564037096659222539"]) do |event|
 	
 	res = JSON.parse RestClient.get "https://dotachess.xyz/player/find/?id="+p_table[event.user.id]
 
@@ -67,7 +73,24 @@ bot.command(:rank, channels: ["552233269412757514"],  required_roles: ["55224069
 	  embed.add_field(name: "Candy", value: res["user_info"]["candy"].to_s, inline: true)
 	end
 	
+	client.execute do |builder|
+  builder.content = 'Hello world!'
+  builder.add_embed do |embed|
+	  embed.colour = 0xab7dea
+
+	  embed.thumbnail = Discordrb::Webhooks::EmbedThumbnail.new(url: "https://dotachess.xyz/static/images/player_icons/"+ res["user_info"]["onduty_hero"].split("_")[0] +".png")
+
+	end
+	  builder.add_embed do |embed|
+	  embed.colour = 0xab7dea
+
+	  embed.thumbnail = Discordrb::Webhooks::EmbedThumbnail.new(url: "https://dotachess.xyz/static/images/player_icons/"+ res["user_info"]["onduty_hero"].split("_")[0] +".png")
+	end
+	end
+	
 end
+
+
 
 
 bot.command(:release, channels: ["552233269412757514"],  required_roles: ["552240698011811851","398234793936158720"]) do |event|
@@ -76,7 +99,7 @@ bot.command(:release, channels: ["552233269412757514"],  required_roles: ["55224
 	  embed.title = "D2Chess Bot ```Release``` "
 	  embed.colour = 0xff0000
 	  embed.url = "https://dota2-autochess.herokuapp.com/"
-	  embed.description = "Falls der Bot 30 Minuten lang nicht benutzt wurde legt er sich schlafen und kann \u00fcber diesen Link wieder geweckt werden:\n[Wach Auf !!!](https://dota2-autochess.herokuapp.com/)"
+	  embed.description = "Falls der Bot 30 Minuten lang nicht benutzt wurde legt er sich schlafen und kann \u00fcber diesen Link wieder geweckt werden:\n[wake up!](https://dota2-autochess.herokuapp.com/)"
 	  embed.timestamp = Time.at(1551905193)
 
 	  embed.thumbnail = Discordrb::Webhooks::EmbedThumbnail.new(url: "https://cdn.discordapp.com/attachments/552233269412757514/552410356287275008/Dota-Auto-Chess-Dota-2.jpeg")
@@ -84,7 +107,7 @@ bot.command(:release, channels: ["552233269412757514"],  required_roles: ["55224
 	  embed.footer = Discordrb::Webhooks::EmbedFooter.new(text: "version 0.2", icon_url: "https://cdn.discordapp.com/attachments/552233269412757514/552410356287275008/Dota-Auto-Chess-Dota-2.jpeg")
 
 	  embed.add_field(name: "Befehl", value: "!rank\n!link StemID64\n!list\n!release", inline: true)
-	  embed.add_field(name: "Beschreibung", value: "Gibt dein Rank aus.\nVerbindet Discord mit Steam.\nZeigt intere Rankliste an.\n`Admin only`", inline: true)
+	  embed.add_field(name: "Beschreibung", value: "Gibt dein Rank aus.\nVerbindet Discord mit Steam.\nZeigt interne Rangliste an.\n`Admin only`", inline: true)
 	end
 end
 
@@ -96,9 +119,6 @@ bot.command(:clean) do |event, amount|
 	event.user.pm "Es wurden #{r} Nachrichten geloescht!"
 end
 
-bot.command(:manu) do |event|
-	event.user.pm event.user.mention+'siehst du!'
-end
 
 bot.command(:ping) do |event|
 	event.respond 'Pong!'
