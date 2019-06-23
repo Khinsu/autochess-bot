@@ -2,6 +2,7 @@
 #dota2-autochess discord bot
 
 require 'sinatra'
+require 'rbnacl/libsodium'
 require 'discordrb'
 require 'discordrb/webhooks'
 require 'rest-client'
