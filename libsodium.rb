@@ -1,6 +1,8 @@
 # libsodium.rb
 
 require 'ffi'
+require 'rbnacl/libsodium'
+
 
 module LibSodium
   extend FFI::Library
