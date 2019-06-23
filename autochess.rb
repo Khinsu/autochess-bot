@@ -40,6 +40,11 @@ $bot_token = ENV['BOTTOKEN']
 
 bot = Discordrb::Commands::CommandBot.new token: $bot_token, prefix: '!'
 
+bot.command(:play) do |event|
+    bot.voice_connect(event.user.on(event.server).voice_channel)
+	event.voice.play_io(open('https://odota.github.io/media/chatwheel/dota_chatwheel_111003.mp3'))
+	event.voice.destroy 
+end
 
 bot.command(:link) do |event|
 	event.user.pm event.user.mention+'TODO'
