@@ -43,7 +43,7 @@ bot = Discordrb::Commands::CommandBot.new token: $bot_token, prefix: '!'
 bot.command(:play) do |event|
     bot.voice_connect(event.user.on(event.server).voice_channel)
 	event.voice.play_file('./dota_chatwheel_111003.mp3')
-	event.voice.play_io(open('https://gamepedia.cursecdn.com/dota2_gamepedia/6/68/Wdoc_killspecial_01.mp3'))
+	event.voice.play_io(open('http://gamepedia.cursecdn.com/dota2_gamepedia/6/68/Wdoc_killspecial_01.mp3'))
 	event.voice.destroy 
 end
 
