@@ -1,5 +1,5 @@
 require 'ffi'
-require 'libsodium'
+require './libsodium.rb'
 
 begin
   RBNACL_AVAILABLE = if ENV['DISCORDRB_NONACL']
