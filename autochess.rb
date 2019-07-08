@@ -58,7 +58,7 @@ bot.command(:connect_voice) do |event|
     bot.voice_connect(event.user.on(event.server).voice_channel)
 end
 
-bot.command(:connect_voice) do |event|
+bot.command(:disconnect_voice) do |event|
 	event.voice.destroy
 	return nil
 end
