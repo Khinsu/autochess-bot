@@ -40,11 +40,31 @@ $bot_token = ENV['BOTTOKEN']
 
 bot = Discordrb::Commands::CommandBot.new token: $bot_token, prefix: '!'
 
-bot.command(:play) do |event|
+
+bot.command(:play2) do |event|
     bot.voice_connect(event.user.on(event.server).voice_channel)
 	event.voice.play_file('./dota_chatwheel_111003.mp3')
 	x = event.voice.destroy
 end
+
+bot.command(:play) do |event|
+    #bot.voice_connect(event.user.on(event.server).voice_channel)
+	event.voice.play_file('./dota_chatwheel_111003.mp3')
+	#x = event.voice.destroy
+end
+
+
+bot.command(:connect_voice) do |event|
+    bot.voice_connect(event.user.on(event.server).voice_channel)
+end
+
+bot.command(:connect_voice) do |event|
+	event.voice.destroy
+	return nil
+end
+
+
+
 
 bot.command(:play_ohja) do |event|
     bot.voice_connect(event.user.on(event.server).voice_channel)
